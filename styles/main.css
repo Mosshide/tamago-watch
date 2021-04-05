@@ -1,0 +1,58 @@
+:root {
+    --very-dark: #3e3e3e;
+    --dark: #505050;
+    --light: #F7FFE0;
+    --yellow: #D59C00;
+    --brown: #704E2E;
+    --green: #709176;
+    --blue: #00487C;
+    --game-size: 500px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    image-rendering: pixelated;
+}
+
+html {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    height: 100vh;
+}
+
+header {
+    background-color: var(--very-dark);
+    padding: 3px;
+}
+
+main {
+    background-color: var(--dark);
+    height: 100%;
+    position: relative;
+}
+
+article {
+    position: absolute;
+    width: var(--game-size);
+    height: var(--game-size);
+    left: calc(50% - (var(--game-size) / 2));
+    top: calc(50% - (var(--game-size) / 2));
+}
+
+.console {
+    width: 100%;
+}
+
+h1 {
+    color: var(--light);
+    font-size: 20px;
+    font-weight: 50;
+}
+
+.detached-right {
+    float: right;
+}

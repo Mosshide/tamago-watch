@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tamago Watch</title>
     <link rel="stylesheet" href="styles/main.css">
-    <script src="js/timing.js" defer></script>
+    <script src="scripts/timing.js" defer></script>
     <script src="scripts/app.js" defer></script>
 </head>
 <body>
@@ -16,7 +16,52 @@
     <main>
         <article>
             <img src="img/console.png" class="console">
-            <img src="img/mon_base.png" class="pet">
+            <section class="screen">
+                <img src="img/mon_base.png" class="pet" id="p0">
+                <img src="img/mon_base.png" class="pet" id="p1">
+                <img src="img/mon_base.png" class="pet" id="p2">
+                <img src="img/music.png" class="music">
+                <img src="img/food.png" class="food">
+            </section>
+            <section class="hud">
+                <img src="img/hand.png" class="clock-hand">
+                <div class="status" id="s0">
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                </div>
+                <div class="status" id="s1">
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                </div>
+                <div class="status" id="s2">
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                    <div class="point"></div>
+                </div>
+            </section>
         </article>
     </main>
 </body>

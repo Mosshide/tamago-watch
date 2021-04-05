@@ -7,20 +7,49 @@ class Pet {
         this.boredom = 0;
         this.stage = 0;
         this.tilNext = 10000;
-        this.awake = true;
+        this.state = 0;
     }
 
     update() {
 
+    }
+
+    toggleFeeding() {
+        return this.hunger;
+    }
+
+    toggleSleeping() {
+        return this.sleepiness;
+    }
+
+    toggleDancing() {
+        return this.boredom;
     }
 }
 
 class Game {
     constructor() {
-
+        this.on = false;
+        this.pet = new Pet();
     }
 
     update() {
+        
+    }
+
+    togglePower() {
+        return this.on;
+    }
+
+    pressBrown() {
+        
+    }
+
+    pressBlue() {
+        
+    }
+
+    pressGreen() {
         
     }
 }

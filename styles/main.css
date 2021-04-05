@@ -47,6 +47,13 @@ article {
     width: 100%;
 }
 
+.pet {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    width: 25%;
+}
+
 h1 {
     color: var(--light);
     font-size: 20px;
@@ -55,4 +62,8 @@ h1 {
 
 .detached-right {
     float: right;
+}
+
+.dark {
+    filter: brightness(.5);
 }

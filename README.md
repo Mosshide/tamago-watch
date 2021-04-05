@@ -15,14 +15,13 @@ Game Logic:
         * Sleepiness (1-10 scale)
         * Boredom (1-10 scale)
         * Age
-    * Add buttons to the screen to feed your pet, turn off the lights, and play with your pet.
-    * Add the ability to name your pet.
-    * Style the page.
-    * Increase your pet's age every x minutes
-    * Increase your pet's Hunger, Sleepiness, and Bored metrics on an interval of your choosing.
-    * You pet should die if Hunger, Boredom, or Sleepiness hits 10.
-    * Morph your pet at certain ages.
-    * Animate your pet across the screen while it's alive.
+    * The buttons are to feed your pet, turn off the lights and play with your pet.
+    * Name your pet whatever you wish!
+    * Be immersed in the retro future!
+    * Your pet will grow!
+    * Your pet will die if Hunger, Sleepiness or Boredom hits 10!
+    * Your pet will morph at certain ages.
+    * Your pet will animate across the screen while it's alive.
 
 Explanation of Technologies Used:
 

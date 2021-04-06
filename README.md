@@ -4,9 +4,7 @@ Tamagotchi project for General Assembly bootcamp.
 
 
 ## Wireframe:
-The watch is a handheld console which has a clock, a screen, status bars and a few buttons.
-
-It has a removable cartridge with an editable label.
+![Screenshot](https://i.imgur.com/OPtz1sC.png)
 
 ## Game Logic:
 - Turn on your Tamago Watch
@@ -31,7 +29,8 @@ It has a removable cartridge with an editable label.
 - Jquery
 
 ## Approach Taken:
-An article and a few buttons in HTML controlled by JavaScript DOM manipulation.
+A few articles and a few buttons in HTML controlled by JavaScript DOM manipulation. Most of the magic happens in 
+Javascript, where I have classes for your pet, the watch itself and timing.
 
 ## Installation Instructions:
 Go to [HERE](https://pages.git.generalassemb.ly/wsushinsky/Tamago-Watch/) to play!

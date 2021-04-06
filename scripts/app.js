@@ -18,7 +18,8 @@ class Pet {
             idle: "img/mon_base.png",
             stand: "img/mon_stand.png",
             sleep: "img/mon_sleep.png",
-            eat: "img/mon_eat.png"
+            eat: "img/mon_eat.png",
+            dead: "img/mon_dead.png"
         };
         this.currentPic = this.pics.idle;
     }
@@ -26,64 +27,66 @@ class Pet {
     update() {
         this.changePic();
 
-        if (this.state !== "sleeping") {
-            if (this.state === "idle") this.moveRandomly();
-            if (this.state === "feeding") {
-                this.moveFeeding();
-
+        if (this.state !== "dead") {
+            if (this.state !== "sleeping") {
+                if (this.state === "idle") this.moveRandomly();
+                if (this.state === "feeding") {
+                    this.moveFeeding();
+    
+                    this.tilNextDrain -= timing.deltaTime;
+                    if (this.tilNextDrain <= 0) {
+                        this.hunger--;
+                        if (this.hunger < 0) this.hunger = 0;
+                        this.tilNextDrain = this.secondsPerDrain * 1000;
+                    }
+                }
+                if (this.state === "dancing") {
+                    this.moveDancing();
+    
+                    this.tilNextDrain -= timing.deltaTime;
+                    if (this.tilNextDrain <= 0) {
+                        this.boredom--;
+                        if (this.boredom < 0) this.boredom = 0;
+                        this.tilNextDrain = this.secondsPerDrain * 1000;
+                    }
+                }
+    
+                this.tilNextFill -= timing.deltaTime;
+                if (this.tilNextFill <= 0) {
+                    switch (Math.floor(Math.random() * 3)) {
+                        case 0:
+                            this.hunger++;
+                            if (this.hunger > 10) {
+                                this.hunger = 10;
+                                this.die();
+                            }
+                            break;
+                        case 1:
+                            this.sleepiness++;
+                            if (this.sleepiness > 10) {
+                                this.sleepiness = 10;
+                                this.die();
+                            }
+                            break;
+                        case 2:
+                            this.boredom++;
+                            if (this.boredom > 10) {
+                                this.boredom = 10;
+                                this.die();
+                            }
+                            break;
+                    }
+    
+                    this.tilNextFill = this.secondsPerFill * 1000;
+                }
+            }
+            else {
                 this.tilNextDrain -= timing.deltaTime;
                 if (this.tilNextDrain <= 0) {
-                    this.hunger--;
-                    if (this.hunger < 0) this.hunger = 0;
+                    this.sleepiness--;
+                    if (this.sleepiness < 0) this.sleepiness = 0;
                     this.tilNextDrain = this.secondsPerDrain * 1000;
                 }
-            }
-            if (this.state === "dancing") {
-                this.moveDancing();
-
-                this.tilNextDrain -= timing.deltaTime;
-                if (this.tilNextDrain <= 0) {
-                    this.boredom--;
-                    if (this.boredom < 0) this.boredom = 0;
-                    this.tilNextDrain = this.secondsPerDrain * 1000;
-                }
-            }
-
-            this.tilNextFill -= timing.deltaTime;
-            if (this.tilNextFill <= 0) {
-                switch (Math.floor(Math.random() * 3)) {
-                    case 0:
-                        this.hunger++;
-                        if (this.hunger > 10) {
-                            this.hunger = 10;
-                            //game over
-                        }
-                        break;
-                    case 1:
-                        this.sleepiness++;
-                        if (this.sleepiness > 10) {
-                            this.sleepiness = 10;
-                            //game over
-                        }
-                        break;
-                    case 2:
-                        this.boredom++;
-                        if (this.boredom > 10) {
-                            this.boredom = 10;
-                            //game over
-                        }
-                        break;
-                }
-
-                this.tilNextFill = this.secondsPerFill * 1000;
-            }
-        }
-        else {
-            this.tilNextDrain -= timing.deltaTime;
-            if (this.tilNextDrain <= 0) {
-                this.sleepiness--;
-                if (this.sleepiness < 0) this.sleepiness = 0;
-                this.tilNextDrain = this.secondsPerDrain * 1000;
             }
         }
     }
@@ -92,30 +95,41 @@ class Pet {
 
     }
 
+    die() {
+        this.state = "dead";
+        this.$pets[this.spot].attr("src", this.pics.dead);
+    }
+
     toggleFeeding() {
-        if (this.state !== "feeding") {
-            this.state = "feeding";
+        if (this.state !== "dead") {
+            if (this.state !== "feeding") {
+                this.state = "feeding";
+            }
+            else this.state = "idle";
         }
-        else this.state = "idle";
 
         return this.hunger;
     }
 
     toggleSleeping() {
-        if (this.state !== "sleeping") {
-            this.state = "sleeping";
-            this.$pets[this.spot].attr("src", this.pics.sleep);
+        if (this.state !== "dead") {
+            if (this.state !== "sleeping") {
+                this.state = "sleeping";
+                this.$pets[this.spot].attr("src", this.pics.sleep);
+            }
+            else this.state = "idle";
         }
-        else this.state = "idle";
 
         return this.sleepiness;
     }
 
     toggleDancing() {
-        if (this.state !== "dancing") {
-            this.state = "dancing";
+        if (this.state !== "dead") {
+            if (this.state !== "dancing") {
+                this.state = "dancing";
+            }
+            else this.state = "idle";
         }
-        else this.state = "idle";
         
         return this.boredom;
     }

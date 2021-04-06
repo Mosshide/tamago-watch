@@ -15,9 +15,6 @@
     margin: 0;
     padding: 0;
     image-rendering: pixelated;
-}
-
-html {
     font-family: 'Courier New', Courier, monospace;
 }
 
@@ -42,6 +39,30 @@ article {
     height: var(--game-size);
     left: calc(50% - (var(--game-size) / 2));
     top: calc(50% - (var(--game-size) / 2));
+}
+
+.cartridge {
+    top: calc(50% - (var(--game-size) / 2) + 20px);
+    background-image: url("../img/cartridge.png");
+    background-size: cover;
+    transition: ease-out .15s;
+}
+
+.cartridge:hover {
+    top: calc(50% - (var(--game-size) / 2) + 170px);
+}
+
+.name {
+    background-color: #70917600;
+    position: absolute;
+    top: 73%;
+    left: 32%;
+    width: 280px;
+    height: 80px;
+    transform: rotate(29deg);
+    text-align: center;
+    font-size: 50px;
+    border: none;
 }
 
 .console {

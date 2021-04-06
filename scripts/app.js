@@ -3,10 +3,14 @@ class Pet {
         this.name = "";
         this.age = 0;
         this.hunger = 5;
-        this.sleepiness = 7;
-        this.boredom = 9;
+        this.sleepiness = 5;
+        this.boredom = 5;
+        this.secondsPerFill = 10;
+        this.tilNextFill = this.secondsPerFill * 1000;
+        this.secondsPerDrain = 1;
+        this.tilNextDrain = this.secondsPerDrain * 1000;
         this.stage = 0;
-        this.tilNext = 10000;
+        this.tilNextStage = 10000;
         this.state = "idle";
         this.$pets = [$("#p0"), $("#p1"), $("#p2")];
         this.pics = ["img/mon_base.png"];
@@ -15,7 +19,64 @@ class Pet {
 
     update() {
         this.changePic();
-        if (this.state !== "sleeping") this.moveRandomly();
+
+        if (this.state !== "sleeping") {
+            if (this.state === "idle") this.moveRandomly();
+            if (this.state === "feeding") {
+                this.moveFeeding();
+
+                this.tilNextDrain -= timing.deltaTime;
+                if (this.tilNextDrain <= 0) {
+                    this.hunger--;
+                    this.tilNextDrain = this.secondsPerDrain * 1000;
+                }
+            }
+            if (this.state === "dancing") {
+                this.moveDancing();
+
+                this.tilNextDrain -= timing.deltaTime;
+                if (this.tilNextDrain <= 0) {
+                    this.boredom--;
+                    this.tilNextDrain = this.secondsPerDrain * 1000;
+                }
+            }
+
+            this.tilNextFill -= timing.deltaTime;
+            if (this.tilNextFill <= 0) {
+                switch (Math.floor(Math.random() * 3)) {
+                    case 0:
+                        this.hunger++;
+                        if (this.hunger > 10) {
+                            this.hunger = 10;
+                            //game over
+                        }
+                        break;
+                    case 1:
+                        this.sleepiness++;
+                        if (this.sleepiness > 10) {
+                            this.sleepiness = 10;
+                            //game over
+                        }
+                        break;
+                    case 2:
+                        this.boredom++;
+                        if (this.boredom > 10) {
+                            this.boredom = 10;
+                            //game over
+                        }
+                        break;
+                }
+
+                this.tilNextFill = this.secondsPerFill * 1000;
+            }
+        }
+        else {
+            this.tilNextDrain -= timing.deltaTime;
+            if (this.tilNextDrain <= 0) {
+                this.sleepiness--;
+                this.tilNextDrain = this.secondsPerDrain * 1000;
+            }
+        }
     }
 
     birth() {
@@ -61,6 +122,21 @@ class Pet {
         this.$pets[chosen].css("display", "initial");
     }
 
+    moveFeeding() {
+        this.clearDisplay();
+
+        this.$pets[2].attr("src", this.currentPic);
+        this.$pets[2].css("display", "initial");
+    }
+
+    moveDancing() {
+        this.clearDisplay();
+
+        let chosen = Math.floor(Math.random() * 2);
+        this.$pets[chosen].attr("src", this.currentPic);
+        this.$pets[chosen].css("display", "initial");
+    }
+
     changePic() {
 
     }
@@ -93,6 +169,8 @@ class Game {
     }
 
     update() {
+        timing.update();
+
         if (this.on) {
             this.updateClock();
             this.pet.update();

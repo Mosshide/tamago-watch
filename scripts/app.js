@@ -8,9 +8,17 @@ class Pet {
         this.stage = 0;
         this.tilNext = 10000;
         this.state = 0;
+        this.$pets = [$("#p0"), $("#p1"), $("#p2")];
+        this.pics = ["img/mon_base.png"];
+        this.currentPic = "img/mon_base.png";
     }
 
     update() {
+        this.changePic();
+        this.moveRandomly();
+    }
+
+    birth() {
 
     }
 
@@ -25,6 +33,28 @@ class Pet {
     toggleDancing() {
         return this.boredom;
     }
+
+    rename(name) {
+        this.name = name;
+    }
+
+    moveRandomly() {
+        this.clearDisplay();
+
+        let chosen = Math.floor(Math.random() * 3);
+        this.$pets[chosen].attr("src", this.currentPic);
+        this.$pets[chosen].css("display", "initial");
+    }
+
+    changePic() {
+
+    }
+
+    clearDisplay() {
+        for (let i = 0; i < 3; i++) {
+            this.$pets[i].css("display", "none");
+        }
+    }
 }
 
 class Game {
@@ -32,7 +62,6 @@ class Game {
         this.on = false;
         this.pet = new Pet();
         this.$screen = $(".screen");
-        this.$pets = [$("#p0"), $("#p1"), $("#p2")]
         this.$music = $(".music");
         this.$food = $(".food");
         this.$hand = $(".clock-hand");
@@ -40,12 +69,13 @@ class Game {
         $("#b1").on("click", function(e) {game.pressBlue();});
         $("#b2").on("click", function(e) {game.pressGreen();});
 
-        setInterval(this.update, 100);
+        setInterval(function() {game.update();}, 1000);
     }
 
     update() {
         if (this.on) {
             this.updateClock();
+            this.pet.update();
         }
     }
 
@@ -86,7 +116,6 @@ class Game {
     updateClock() {
         let time = new Date();
         let rotation = ((time.getHours() % 12 / 12) + (time.getMinutes() / 60 / 12)) * 360;
-        console.log(rotation);
         this.$hand.css("transform", `rotate(${rotation}deg)`);
     }
 
@@ -98,5 +127,4 @@ class Game {
 
     }
 }
-
 const game = new Game();

@@ -1,13 +1,11 @@
-# Tamago-Watch
+# Tamago Watch
 Tamagotchi project for General Assembly bootcamp.
 
 
-
-## Wireframe:
 ![Screenshot](https://i.imgur.com/OPtz1sC.png)
 
 ## Game Logic:
-- Turn on your Tamago Watch
+- Turn on your Tamago Watch.
 - Your Tamago Watch pet will come to life on screen.
 - See the current time on your clock.
 - The following metrics are displayed for your pet: 
@@ -22,7 +20,7 @@ Tamagotchi project for General Assembly bootcamp.
 - Your pet will morph at certain ages.
 - Your pet will animate across the screen while it's alive.
 
-## Explanation of Technologies Used:
+## Technologies Used:
 - HTML
 - CSS
 - Javascript

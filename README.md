@@ -16,7 +16,6 @@ It has a removable cartridge with an editable label.
     - Food (1-10 scale)
     - Sleep (1-10 scale)
     - Fun (1-10 scale)
-    - Age
 - The buttons are to feed your pet, turn off the lights and play with your pet.
 - Name your pet whatever you wish!
 - Be immersed in the retro future!

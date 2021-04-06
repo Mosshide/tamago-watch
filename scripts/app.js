@@ -10,62 +10,75 @@ class Pet {
         this.secondsPerDrain = 10;
         this.tilNextDrain = this.secondsPerDrain * 1000;
         this.stage = 0;
-        this.tilNextStage = 10000;
+        this.tilNextStage = [3, 10];
         this.state = "idle";
         this.$pets = [$("#p0"), $("#p1"), $("#p2")];
         this.spot = 0;
         this.pics = {
+            egg: "img/egg.png",
             idle: "img/mon_base.png",
             stand: "img/mon_stand.png",
             sleep: "img/mon_sleep.png",
             eat: "img/mon_eat.png",
             dead: "img/mon_dead.png"
         };
-        this.currentPic = this.pics.idle;
+        this.currentPic = this.pics.egg;
     }
 
     update() {
-        this.changePic();
-
         if (this.state !== "dead") {
-            if (this.state !== "sleeping") {
-                if (this.state === "idle") this.moveRandomly();
-                if (this.state === "feeding") {
-                    this.moveFeeding();
-    
-                    this.food = this.increaseStat(this.food);
-                }
-                if (this.state === "dancing") {
-                    this.moveDancing();
-    
-                    this.fun = this.increaseStat(this.fun);
-                }
-    
-                this.tilNextDrain -= timing.deltaTime;
-                if (this.tilNextDrain <= 0) {
-                    switch (Math.floor(Math.random() * 3)) {
-                        case 0:
-                            this.food = this.decreaseStat(this.food);
-                            break;
-                        case 1:
-                            this.sleep = this.decreaseStat(this.sleep);
-                            break;
-                        case 2:
-                            this.fun = this.decreaseStat(this.fun);
-                            break;
+            if (this.stage > 0) {
+                this.changePic();
+                
+                if (this.state !== "sleeping") {
+                    if (this.state === "idle") this.moveRandomly();
+                    if (this.state === "feeding") {
+                        this.moveFeeding();
+        
+                        this.food = this.increaseStat(this.food);
                     }
-    
-                    this.tilNextDrain = this.secondsPerDrain * 1000;
+                    if (this.state === "dancing") {
+                        this.moveDancing();
+        
+                        this.fun = this.increaseStat(this.fun);
+                    }
+        
+                    this.tilNextDrain -= timing.deltaTime;
+                    if (this.tilNextDrain <= 0) {
+                        switch (Math.floor(Math.random() * 3)) {
+                            case 0:
+                                this.food = this.decreaseStat(this.food);
+                                break;
+                            case 1:
+                                this.sleep = this.decreaseStat(this.sleep);
+                                break;
+                            case 2:
+                                this.fun = this.decreaseStat(this.fun);
+                                break;
+                        }
+        
+                        this.tilNextDrain = this.secondsPerDrain * 1000;
+                    }
+                }
+                else {
+                    this.sleep = this.increaseStat(this.sleep);
                 }
             }
-            else {
-                this.sleep = this.increaseStat(this.sleep);
-            }
+            else this.moveEgg();
+        }
+    }
+
+    crackEgg() {
+        this.tilNextStage[0]--;
+        if (this.tilNextStage[0] <= 0) {
+            this.tilNextStage[0] = 0;
+            this.birth();
         }
     }
 
     birth() {
-
+        this.stage = 1;
+        this.currentPic = this.pics.idle;
     }
 
     die() {
@@ -87,7 +100,7 @@ class Pet {
     decreaseStat(stat) {
         stat--;
         if (stat <= 0) {
-            stat = 10;
+            stat = 0;
             this.die();
         }
 
@@ -95,6 +108,8 @@ class Pet {
     }
 
     toggleFeeding() {
+        if (this.stage === 0) this.crackEgg();
+        
         if (this.state !== "dead") {
             if (this.state !== "feeding") {
                 this.state = "feeding";
@@ -106,6 +121,8 @@ class Pet {
     }
 
     toggleSleeping() {
+        if (this.stage === 0) this.crackEgg();
+        
         if (this.state !== "dead") {
             if (this.state !== "sleeping") {
                 this.state = "sleeping";
@@ -118,6 +135,8 @@ class Pet {
     }
 
     toggleDancing() {
+        if (this.stage === 0) this.crackEgg();
+        
         if (this.state !== "dead") {
             if (this.state !== "dancing") {
                 this.state = "dancing";
@@ -130,6 +149,14 @@ class Pet {
 
     rename(name) {
         this.name = name;
+    }
+
+    moveEgg() {
+        this.clearDisplay();
+
+        this.spot = 1;
+        this.$pets[this.spot].attr("src", this.currentPic);
+        this.$pets[this.spot].css("display", "initial");
     }
 
     moveRandomly() {
@@ -145,8 +172,8 @@ class Pet {
         this.clearDisplay();
 
         this.spot = 2;
-        this.$pets[2].attr("src", this.currentPic);
-        this.$pets[2].css("display", "initial");
+        this.$pets[this.spot].attr("src", this.currentPic);
+        this.$pets[this.spot].css("display", "initial");
     }
 
     moveDancing() {

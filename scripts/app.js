@@ -7,7 +7,7 @@ class Pet {
         this.boredom = 9;
         this.stage = 0;
         this.tilNext = 10000;
-        this.state = 0;
+        this.state = "idle";
         this.$pets = [$("#p0"), $("#p1"), $("#p2")];
         this.pics = ["img/mon_base.png"];
         this.currentPic = "img/mon_base.png";
@@ -15,7 +15,7 @@ class Pet {
 
     update() {
         this.changePic();
-        this.moveRandomly();
+        if (this.state !== "sleeping") this.moveRandomly();
     }
 
     birth() {
@@ -23,14 +23,29 @@ class Pet {
     }
 
     toggleFeeding() {
+        if (this.state !== "feeding") {
+            this.state = "feeding";
+        }
+        else this.state = "idle";
+
         return this.hunger;
     }
 
     toggleSleeping() {
+        if (this.state !== "sleeping") {
+            this.state = "sleeping";
+        }
+        else this.state = "idle";
+
         return this.sleepiness;
     }
 
     toggleDancing() {
+        if (this.state !== "dancing") {
+            this.state = "dancing";
+        }
+        else this.state = "idle";
+        
         return this.boredom;
     }
 
@@ -109,18 +124,50 @@ class Game {
 
     pressBrown() {
         if (!this.on) this.togglePower();
+        else {
+            this.pet.toggleFeeding();
+
+            if (this.$music.css("display") !== "none") this.$music.css("display", "none");
+
+            if (this.$food.css("display") === "none") {
+                this.$food.css("display", "initial");
+            }
+            else {
+                this.$food.css("display", "none");
+            }
+        }
 
         console.log("Brown");
     }
 
     pressBlue() {
         if (!this.on) this.togglePower();
+        else {
+            this.pet.toggleSleeping();
+
+            if (this.$food.css("display") !== "none") this.$food.css("display", "none");
+            if (this.$music.css("display") !== "none") this.$music.css("display", "none");
+
+            this.$screen.toggleClass("bloom");
+        }
 
         console.log("Blue");
     }
 
     pressGreen() {
         if (!this.on) this.togglePower();
+        else {
+            this.pet.toggleDancing();
+
+            if (this.$food.css("display") !== "none") this.$food.css("display", "none");
+            
+            if (this.$music.css("display") === "none") {
+                this.$music.css("display", "initial");
+            }
+            else {
+                this.$music.css("display", "none");
+            }
+        }
         
         console.log("Green");
     }

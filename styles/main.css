@@ -58,7 +58,7 @@ article {
 }
 
 .bloom {
-    box-shadow: 0px 0px 20px #fff6d759;
+    box-shadow: 0px 0px 10px #fff6d759, inset 0px 0px 10px #fff6d759;
 }
 
 .pet {

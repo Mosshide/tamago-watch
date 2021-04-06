@@ -28,7 +28,7 @@ Tamagotchi project for General Assembly bootcamp.
 
 ## Approach Taken:
 A few articles and a few buttons in HTML controlled by JavaScript DOM manipulation. Most of the magic happens in 
-Javascript, where I have classes for your pet, the watch itself and timing.
+Javascript, where I have classes for your pet, the timing and the watch itself.
 
 ## Installation Instructions:
 Go [HERE](https://pages.git.generalassemb.ly/wsushinsky/Tamago-Watch/) to play!

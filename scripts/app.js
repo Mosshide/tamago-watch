@@ -34,6 +34,7 @@ class Pet {
                 this.tilNextDrain -= timing.deltaTime;
                 if (this.tilNextDrain <= 0) {
                     this.hunger--;
+                    if (this.hunger < 0) this.hunger = 0;
                     this.tilNextDrain = this.secondsPerDrain * 1000;
                 }
             }
@@ -43,6 +44,7 @@ class Pet {
                 this.tilNextDrain -= timing.deltaTime;
                 if (this.tilNextDrain <= 0) {
                     this.boredom--;
+                    if (this.boredom < 0) this.boredom = 0;
                     this.tilNextDrain = this.secondsPerDrain * 1000;
                 }
             }
@@ -80,6 +82,7 @@ class Pet {
             this.tilNextDrain -= timing.deltaTime;
             if (this.tilNextDrain <= 0) {
                 this.sleepiness--;
+                if (this.sleepiness < 0) this.sleepiness = 0;
                 this.tilNextDrain = this.secondsPerDrain * 1000;
             }
         }

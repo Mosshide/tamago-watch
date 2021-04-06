@@ -2,12 +2,12 @@ class Pet {
     constructor() {
         this.name = "";
         this.age = 0;
-        this.hunger = 5;
-        this.sleepiness = 5;
-        this.boredom = 5;
-        this.secondsPerFill = 10;
+        this.food = 10;
+        this.sleep = 10;
+        this.fun = 10;
+        this.secondsPerFill = 1;
         this.tilNextFill = this.secondsPerFill * 1000;
-        this.secondsPerDrain = 1;
+        this.secondsPerDrain = 10;
         this.tilNextDrain = this.secondsPerDrain * 1000;
         this.stage = 0;
         this.tilNextStage = 10000;
@@ -33,60 +33,33 @@ class Pet {
                 if (this.state === "feeding") {
                     this.moveFeeding();
     
-                    this.tilNextDrain -= timing.deltaTime;
-                    if (this.tilNextDrain <= 0) {
-                        this.hunger--;
-                        if (this.hunger < 0) this.hunger = 0;
-                        this.tilNextDrain = this.secondsPerDrain * 1000;
-                    }
+                    this.food = this.increaseStat(this.food);
                 }
                 if (this.state === "dancing") {
                     this.moveDancing();
     
-                    this.tilNextDrain -= timing.deltaTime;
-                    if (this.tilNextDrain <= 0) {
-                        this.boredom--;
-                        if (this.boredom < 0) this.boredom = 0;
-                        this.tilNextDrain = this.secondsPerDrain * 1000;
-                    }
+                    this.fun = this.increaseStat(this.fun);
                 }
     
-                this.tilNextFill -= timing.deltaTime;
-                if (this.tilNextFill <= 0) {
+                this.tilNextDrain -= timing.deltaTime;
+                if (this.tilNextDrain <= 0) {
                     switch (Math.floor(Math.random() * 3)) {
                         case 0:
-                            this.hunger++;
-                            if (this.hunger > 10) {
-                                this.hunger = 10;
-                                this.die();
-                            }
+                            this.food = this.decreaseStat(this.food);
                             break;
                         case 1:
-                            this.sleepiness++;
-                            if (this.sleepiness > 10) {
-                                this.sleepiness = 10;
-                                this.die();
-                            }
+                            this.sleep = this.decreaseStat(this.sleep);
                             break;
                         case 2:
-                            this.boredom++;
-                            if (this.boredom > 10) {
-                                this.boredom = 10;
-                                this.die();
-                            }
+                            this.fun = this.decreaseStat(this.fun);
                             break;
                     }
     
-                    this.tilNextFill = this.secondsPerFill * 1000;
+                    this.tilNextDrain = this.secondsPerDrain * 1000;
                 }
             }
             else {
-                this.tilNextDrain -= timing.deltaTime;
-                if (this.tilNextDrain <= 0) {
-                    this.sleepiness--;
-                    if (this.sleepiness < 0) this.sleepiness = 0;
-                    this.tilNextDrain = this.secondsPerDrain * 1000;
-                }
+                this.sleep = this.increaseStat(this.sleep);
             }
         }
     }
@@ -98,6 +71,27 @@ class Pet {
     die() {
         this.state = "dead";
         this.$pets[this.spot].attr("src", this.pics.dead);
+    }
+
+    increaseStat(stat) {
+        this.tilNextFill -= timing.deltaTime;
+        if (this.tilNextFill <= 0) {
+            stat++;
+            if (stat > 10) stat = 10;
+            this.tilNextFill = this.secondsPerFill * 1000;
+        }
+
+        return stat;
+    }
+
+    decreaseStat(stat) {
+        stat--;
+        if (stat <= 0) {
+            stat = 10;
+            this.die();
+        }
+
+        return stat;
     }
 
     toggleFeeding() {
@@ -188,7 +182,7 @@ class Pet {
     }
 
     getStats() {
-        return [this.hunger, this.sleepiness, this.boredom];
+        return [this.food, this.sleep, this.fun];
     }
 }
 

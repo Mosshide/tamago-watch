@@ -13,8 +13,14 @@ class Pet {
         this.tilNextStage = 10000;
         this.state = "idle";
         this.$pets = [$("#p0"), $("#p1"), $("#p2")];
-        this.pics = ["img/mon_base.png"];
-        this.currentPic = "img/mon_base.png";
+        this.spot = 0;
+        this.pics = {
+            idle: "img/mon_base.png",
+            stand: "img/mon_stand.png",
+            sleep: "img/mon_sleep.png",
+            eat: "img/mon_eat.png"
+        };
+        this.currentPic = this.pics.idle;
     }
 
     update() {
@@ -95,6 +101,7 @@ class Pet {
     toggleSleeping() {
         if (this.state !== "sleeping") {
             this.state = "sleeping";
+            this.$pets[this.spot].attr("src", this.pics.sleep);
         }
         else this.state = "idle";
 
@@ -118,6 +125,7 @@ class Pet {
         this.clearDisplay();
 
         let chosen = Math.floor(Math.random() * 3);
+        this.spot = chosen;
         this.$pets[chosen].attr("src", this.currentPic);
         this.$pets[chosen].css("display", "initial");
     }
@@ -125,6 +133,7 @@ class Pet {
     moveFeeding() {
         this.clearDisplay();
 
+        this.spot = 2;
         this.$pets[2].attr("src", this.currentPic);
         this.$pets[2].css("display", "initial");
     }
@@ -133,12 +142,26 @@ class Pet {
         this.clearDisplay();
 
         let chosen = Math.floor(Math.random() * 2);
+        this.spot = chosen;
         this.$pets[chosen].attr("src", this.currentPic);
         this.$pets[chosen].css("display", "initial");
     }
 
     changePic() {
-
+        if (Math.floor(Math.random() * 2) > 0) {
+            switch (this.state) {
+                case "sleeping":
+                    this.currentPic = this.pics.sleep;
+                    break;
+                case "dancing":
+                    this.currentPic = this.pics.stand;
+                    break;
+                case "feeding":
+                    this.currentPic = this.pics.eat;
+                    break;
+            }
+        }
+        else this.currentPic = this.pics.idle;
     }
 
     clearDisplay() {
@@ -213,6 +236,8 @@ class Game {
             else {
                 this.$food.css("display", "none");
             }
+
+            this.$screen.addClass("bloom");
         }
 
         console.log("Brown");
@@ -245,6 +270,8 @@ class Game {
             else {
                 this.$music.css("display", "none");
             }
+
+            this.$screen.addClass("bloom");
         }
         
         console.log("Green");

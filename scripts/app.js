@@ -86,10 +86,14 @@ class Game {
         if (this.on) {
             this.updateClock();
             this.$screen.css("display", "initial");
+            this.$screen.toggleClass("bloom");
+            $("main").css("background-color", "var(--extreme-dark)");
         }
         else {
             this.resetClock();
             this.$screen.css("display", "none");
+            this.$screen.toggleClass("bloom");
+            $("main").css("background-color", "var(--very-dark)");
         }
 
         return this.on;

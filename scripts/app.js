@@ -10,7 +10,7 @@ class Pet {
         this.secondsPerDrain = 10;
         this.tilNextDrain = this.secondsPerDrain * 1000;
         this.stage = 0;
-        this.tilNextStage = [3, 10];
+        this.tilNextStage = [3, 5];
         this.state = "idle";
         this.$pets = [$("#p0"), $("#p1"), $("#p2")];
         this.spot = 0;
@@ -22,6 +22,14 @@ class Pet {
             eat: "img/mon_eat.png",
             dead: "img/mon_dead.png"
         };
+        this.bigPics = {
+            idle: "img/big_idle.png",
+            stand: "img/big_stand.png",
+            sleep: "img/big_sleep.png",
+            eat: "img/big_eat.png",
+            dead: "img/big_dead.png"
+        };
+        this.currentPicSet = this.pics;
         this.currentPic = this.pics.egg;
     }
 
@@ -48,6 +56,7 @@ class Pet {
                         switch (Math.floor(Math.random() * 3)) {
                             case 0:
                                 this.food = this.decreaseStat(this.food);
+                                this.tryToEvolve();
                                 break;
                             case 1:
                                 this.sleep = this.decreaseStat(this.sleep);
@@ -75,15 +84,26 @@ class Pet {
             this.birth();
         }
     }
+    
+    tryToEvolve() {
+        if (this.stage === 1){
+            this.tilNextStage[1]--;
+            if (this.tilNextStage[1] <= 0) {
+                this.tilNextStage[1] = 0;
+                this.stage++;
+                this.currentPicSet = this.bigPics;
+            }
+        }
+    }
 
     birth() {
         this.stage = 1;
-        this.currentPic = this.pics.idle;
+        this.currentPic = this.currentPicSet.idle;
     }
 
     die() {
         this.state = "dead";
-        this.$pets[this.spot].attr("src", this.pics.dead);
+        this.$pets[this.spot].attr("src", this.currentPicSet.dead);
     }
 
     increaseStat(stat) {
@@ -126,7 +146,7 @@ class Pet {
         if (this.state !== "dead") {
             if (this.state !== "sleeping") {
                 this.state = "sleeping";
-                this.$pets[this.spot].attr("src", this.pics.sleep);
+                this.$pets[this.spot].attr("src", this.currentPicSet.sleep);
             }
             else this.state = "idle";
         }
@@ -189,17 +209,17 @@ class Pet {
         if (Math.floor(Math.random() * 2) > 0) {
             switch (this.state) {
                 case "sleeping":
-                    this.currentPic = this.pics.sleep;
+                    this.currentPic = this.currentPicSet.sleep;
                     break;
                 case "dancing":
-                    this.currentPic = this.pics.stand;
+                    this.currentPic = this.currentPicSet.stand;
                     break;
                 case "feeding":
-                    this.currentPic = this.pics.eat;
+                    this.currentPic = this.currentPicSet.eat;
                     break;
             }
         }
-        else this.currentPic = this.pics.idle;
+        else this.currentPic = this.currentPicSet.idle;
     }
 
     clearDisplay() {

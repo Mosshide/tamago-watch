@@ -176,13 +176,14 @@ class Pet {
      */
     toggleSleeping() {
         if (this.stage === 0) this.crackEgg();
-        
-        if (this.state !== "dead") {
-            if (this.state !== "sleeping") {
-                this.state = "sleeping";
-                this.$pets[this.spot].attr("src", this.currentPicSet.sleep);
+        else {
+            if (this.state !== "dead") {
+                if (this.state !== "sleeping") {
+                    this.state = "sleeping";
+                    this.$pets[this.spot].attr("src", this.currentPicSet.sleep);
+                }
+                else this.state = "idle";
             }
-            else this.state = "idle";
         }
 
         return this.sleep;

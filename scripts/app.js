@@ -245,13 +245,9 @@ class Game {
         $("#b0").on("click", function(e) {game.pressBrown();});
         $("#b1").on("click", function(e) {game.pressBlue();});
         $("#b2").on("click", function(e) {game.pressGreen();});
-
-        setInterval(function() {game.update();}, 1000);
     }
 
     update() {
-        timing.update();
-
         if (this.on) {
             this.updateClock();
             this.pet.update();
@@ -262,7 +258,6 @@ class Game {
     togglePower() {
         this.on = !this.on;
         
-
         if (this.on) {
             this.updateClock();
             this.$screen.css("display", "initial");
@@ -364,3 +359,9 @@ class Game {
     }
 }
 const game = new Game();
+
+//main game loop
+setInterval(function() {
+    timing.update();
+    game.update();
+}, 1000);

@@ -1,5 +1,5 @@
 /**
- * Cut-down timing class just for easily getting time since last frame.
+ * @description Cut-down timing class just for easily getting time since last frame.
  */
 class Timing {
     constructor() {
@@ -8,7 +8,7 @@ class Timing {
     }
 
     /**
-     * Evoke this somewhere every frame to get accurate delta times.
+     * @description Evoke this somewhere every frame to get accurate delta times.
      */
     update() {
         this.deltaTime = Date.now() - this.lastTime;

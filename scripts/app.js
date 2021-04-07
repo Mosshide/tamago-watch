@@ -1,7 +1,8 @@
 class Pet {
+    /**
+     * @description Initializes your pets values and grabs relevant DOM elements
+     */
     constructor() {
-        this.name = "";
-        this.age = 0;
         this.food = 10;
         this.sleep = 10;
         this.fun = 10;
@@ -33,6 +34,9 @@ class Pet {
         this.currentPic = this.pics.egg;
     }
 
+    /**
+     * @description Must be called on every frame for your pet to be alive.
+     */
     update() {
         if (this.state !== "dead") {
             if (this.stage > 0) {
@@ -77,6 +81,9 @@ class Pet {
         }
     }
 
+    /**
+     * @description An egg will hatch when this function is invoked a sufficient number of times.
+     */
     crackEgg() {
         this.tilNextStage[0]--;
         if (this.tilNextStage[0] <= 0) {
@@ -85,6 +92,9 @@ class Pet {
         }
     }
     
+    /**
+     * @description A mon will grow when this function is invoked a sufficient number of times.
+     */
     tryToEvolve() {
         if (this.stage === 1){
             this.tilNextStage[1]--;
@@ -96,16 +106,27 @@ class Pet {
         }
     }
 
+    /**
+     * @description Transform egg into mon.
+     */
     birth() {
         this.stage = 1;
         this.currentPic = this.currentPicSet.idle;
     }
 
+    /**
+     * @description Your pet will die!
+     */
     die() {
         this.state = "dead";
         this.$pets[this.spot].attr("src", this.currentPicSet.dead);
     }
 
+    /**
+     * @description Increases the input (by value) by one and caps it at 10;
+     * @param {number} stat 
+     * @returns stat
+     */
     increaseStat(stat) {
         this.tilNextFill -= timing.deltaTime;
         if (this.tilNextFill <= 0) {
@@ -117,6 +138,11 @@ class Pet {
         return stat;
     }
 
+    /**
+     * @description Decreases the input (by value) by one and limits it to 0. May kill your pet.
+     * @param {number} stat 
+     * @returns stat
+     */
     decreaseStat(stat) {
         stat--;
         if (stat <= 0) {
@@ -127,6 +153,10 @@ class Pet {
         return stat;
     }
 
+    /**
+     * @description Toggle's your pet's feeding mode. Will toggle-off other modes.
+     * @returns Your pet's food value.
+     */
     toggleFeeding() {
         if (this.stage === 0) this.crackEgg();
         
@@ -137,9 +167,13 @@ class Pet {
             else this.state = "idle";
         }
 
-        return this.hunger;
+        return this.food;
     }
 
+    /**
+     * @description Toggle's your pet's sleeping mode. Will toggle-off other modes.
+     * @returns Your pet's sleep value.
+     */
     toggleSleeping() {
         if (this.stage === 0) this.crackEgg();
         
@@ -151,9 +185,13 @@ class Pet {
             else this.state = "idle";
         }
 
-        return this.sleepiness;
+        return this.sleep;
     }
 
+    /**
+     * @description Toggle's your pet's dancing mode. Will toggle-off other modes.
+     * @returns Your pet's fun value.
+     */
     toggleDancing() {
         if (this.stage === 0) this.crackEgg();
         
@@ -164,13 +202,12 @@ class Pet {
             else this.state = "idle";
         }
         
-        return this.boredom;
+        return this.fun;
     }
 
-    rename(name) {
-        this.name = name;
-    }
-
+    /**
+     * @description Moves your pet to screen center.
+     */
     moveEgg() {
         this.clearDisplay();
 
@@ -179,6 +216,9 @@ class Pet {
         this.$pets[this.spot].css("display", "initial");
     }
 
+    /**
+     * @description Moves your pet to any spot.
+     */
     moveRandomly() {
         this.clearDisplay();
 
@@ -188,6 +228,9 @@ class Pet {
         this.$pets[chosen].css("display", "initial");
     }
 
+    /**
+     * @description Moves your pet to the right spot.
+     */
     moveFeeding() {
         this.clearDisplay();
 
@@ -196,6 +239,9 @@ class Pet {
         this.$pets[this.spot].css("display", "initial");
     }
 
+    /**
+     * @description Move your pet randomly between the left and center spots.
+     */
     moveDancing() {
         this.clearDisplay();
 
@@ -205,6 +251,9 @@ class Pet {
         this.$pets[chosen].css("display", "initial");
     }
 
+    /**
+     * @description Updates your pet's current sprite based on its current action.
+     */
     changePic() {
         if (Math.floor(Math.random() * 2) > 0) {
             switch (this.state) {
@@ -222,18 +271,28 @@ class Pet {
         else this.currentPic = this.currentPicSet.idle;
     }
 
+    /**
+     * @description No pet will show on screen.
+     */
     clearDisplay() {
         for (let i = 0; i < 3; i++) {
             this.$pets[i].css("display", "none");
         }
     }
 
+    /**
+     * 
+     * @returns Your pet's stats.
+     */
     getStats() {
         return [this.food, this.sleep, this.fun];
     }
 }
 
 class Game {
+    /**
+     * @description Initializes the game's values, grabs relevant DOM elements and gives buttons listeners.
+     */
     constructor() {
         this.on = false;
         this.pet = new Pet();
@@ -247,6 +306,9 @@ class Game {
         $("#b2").on("click", function(e) {game.pressGreen();});
     }
 
+    /**
+     * @description Call this every main game loop for the game to run.
+     */
     update() {
         if (this.on) {
             this.updateClock();
@@ -255,6 +317,10 @@ class Game {
         }
     }
 
+    /**
+     * @description Toggles power and updates the display accordingly.
+     * @returns Current power state.
+     */
     togglePower() {
         this.on = !this.on;
         
@@ -276,6 +342,9 @@ class Game {
         return this.on;
     }
 
+    /**
+     * @description Will turn on the game if off or initiate feeding mode. Will turn off other modes.
+     */
     pressBrown() {
         if (!this.on) this.togglePower();
         else {
@@ -292,10 +361,11 @@ class Game {
 
             this.$screen.addClass("bloom");
         }
-
-        console.log("Brown");
     }
 
+    /**
+     * @description Will turn on the game if off or initiate sleeping mode. Will turn off other modes.
+     */
     pressBlue() {
         if (!this.on) this.togglePower();
         else {
@@ -306,10 +376,11 @@ class Game {
 
             this.$screen.toggleClass("bloom");
         }
-
-        console.log("Blue");
     }
 
+    /**
+     * @description Will turn on the game if off or initiate dancing mode. Will turn off other modes.
+     */
     pressGreen() {
         if (!this.on) this.togglePower();
         else {
@@ -326,20 +397,27 @@ class Game {
 
             this.$screen.addClass("bloom");
         }
-        
-        console.log("Green");
     }
 
+    /**
+     * @description Invoke this at your desired frequency. This makes the clock match real life time.
+     */
     updateClock() {
         let time = new Date();
         let rotation = ((time.getHours() % 12 / 12) + (time.getMinutes() / 60 / 12)) * 360;
         this.$hand.css("transform", `rotate(${rotation}deg)`);
     }
 
+    /**
+     * @description Invoke this if the game loses power.
+     */
     resetClock() {
         this.$hand.css("transform", "rotate(0)");
     }
 
+    /**
+     * @description Updates the DOM status bars based on your pet's stats.
+     */
     updateStats() {
         let stats = this.pet.getStats();
 

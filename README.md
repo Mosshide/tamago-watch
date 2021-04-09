@@ -2,7 +2,7 @@
 Tamagotchi project for General Assembly bootcamp.
 
 
-![Screenshot](https://i.imgur.com/OPtz1sC.png)
+![Screenshot](img/screenshot.png)
 
 ## Game Logic:
 - Turn on your Tamago Watch.

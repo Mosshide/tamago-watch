@@ -295,6 +295,7 @@ class Game {
      */
     constructor() {
         this.on = false;
+        this.paused = false;
         this.pet = new Pet();
         this.$screen = $(".screen");
         this.$music = $(".music");
@@ -304,6 +305,7 @@ class Game {
         $("#b0").on("click", function(e) {game.pressBrown();});
         $("#b1").on("click", function(e) {game.pressBlue();});
         $("#b2").on("click", function(e) {game.pressGreen();});
+        $(".cartridge").hover(function(e) {game.togglePause();});
     }
 
     /**
@@ -312,8 +314,10 @@ class Game {
     update() {
         if (this.on) {
             this.updateClock();
-            this.pet.update();
-            this.updateStats();
+            if (!this.paused) {
+                this.pet.update();
+                this.updateStats();
+            }
         }
     }
 
@@ -340,6 +344,13 @@ class Game {
         }
 
         return this.on;
+    }
+
+    /**
+     * @description Pauses the watch's game logic.
+     */
+    togglePause() {
+        this.paused = !this.paused;
     }
 
     /**

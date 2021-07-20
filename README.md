@@ -31,7 +31,7 @@ A few articles and a few buttons in HTML controlled by JavaScript DOM manipulati
 Javascript, where I have classes for your pet, the timing and the watch itself.
 
 ## Installation Instructions:
-Go [HERE](https://pages.git.generalassemb.ly/wsushinsky/Tamago-Watch/) to play!
+Go [HERE](https://mosshide.github.io/tamago-watch/) to play!
 
 ## Unsolved Problems:
 None at the moment.
